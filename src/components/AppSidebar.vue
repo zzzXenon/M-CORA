@@ -1,39 +1,38 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { 
-    PlusCircle, Server, MoreVertical, 
-    Edit2, Trash2, LogOut, LogIn, Settings 
+        PlusCircle, Server, MoreVertical, Edit2, Trash2, LogOut, LogIn
     } from 'lucide-vue-next';
 
     interface Machine {
-    id: string;
-    name: string;
-    location: string;
+        id: string;
+        name: string;
+        location: string;
     }
 
     defineProps<{
-    machines: Machine[];
-    selectedMachineId: string | null;
-    isCollapsed: boolean;
-    isMobile: boolean;
-    isSidebarOpen: boolean;
-    isLoggedIn: boolean;
+        machines: Machine[];
+        selectedMachineId: string | null;
+        isCollapsed: boolean;
+        isMobile: boolean;
+        isSidebarOpen: boolean;
+        isLoggedIn: boolean;
     }>();
 
     const emit = defineEmits<{
-    (e: 'toggleSidebar'): void;
-    (e: 'toggleCollapse'): void;
-    (e: 'selectMachine', id: string): void;
-    (e: 'openModal'): void;
-    (e: 'openProfile'): void;
-    (e: 'login'): void;
-    (e: 'logout'): void;
+        (e: 'toggleSidebar'): void;
+        (e: 'toggleCollapse'): void;
+        (e: 'selectMachine', id: string): void;
+        (e: 'openModal'): void;
+        (e: 'openProfile'): void;
+        (e: 'login'): void;
+        (e: 'logout'): void;
     }>();
 
     const expandedMachineId = ref<string | null>(null);
 
     const toggleMachineOptions = (id: string) => {
-    expandedMachineId.value = expandedMachineId.value === id ? null : id;
+        expandedMachineId.value = expandedMachineId.value === id ? null : id;
     };
 </script>
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
    import { computed } from 'vue';
-   import { ArrowUp, ArrowDown, Zap } from 'lucide-vue-next';
+   import { ArrowUp, ArrowDown} from 'lucide-vue-next';
 
    interface Props {
-   score: number;
-   trend: 'up' | 'down';
+      score: number;
+      trend: 'up' | 'down';
    }
 
    const props = defineProps<Props>();
@@ -13,21 +13,21 @@
    const dashOffset = computed(() => circumference - (props.score / 100) * circumference);
 
    const statusColor = computed(() => {
-   if (props.score >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-   if (props.score >= 70) return 'bg-amber-50 text-amber-700 border-amber-100';
-   return 'bg-red-50 text-red-700 border-red-100';
+      if (props.score >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+      if (props.score >= 70) return 'bg-amber-50 text-amber-700 border-amber-100';
+      return 'bg-red-50 text-red-700 border-red-100';
    });
 
    const scoreColor = computed(() => {
-   if (props.score >= 90) return 'text-emerald-500';
-   if (props.score >= 70) return 'text-amber-500';
-   return 'text-red-500';
+      if (props.score >= 90) return 'text-emerald-500';
+      if (props.score >= 70) return 'text-amber-500';
+      return 'text-red-500';
    });
 
    const statusText = computed(() => {
-   if (props.score >= 90) return 'OPTIMAL';
-   if (props.score >= 70) return 'DEGRADING';
-   return 'CRITICAL';
+      if (props.score >= 90) return 'OPTIMAL';
+      if (props.score >= 70) return 'DEGRADING';
+      return 'CRITICAL';
    });
 </script>
 

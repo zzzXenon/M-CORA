@@ -4,7 +4,7 @@
 
     import EfficiencyGauge from './components/EfficiencyGauge.vue';
     import CarbonChart from './components/CarbonChart.vue';
-    import Sidebar from './components/Sidebar.vue';
+    import Sidebar from './components/AppSidebar.vue';
 
     const isSidebarOpen = ref(false);
     const isCollapsed = ref(false);

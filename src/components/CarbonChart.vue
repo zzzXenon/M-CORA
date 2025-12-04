@@ -2,7 +2,7 @@
    import { ref, computed, onMounted, onUnmounted } from 'vue';
 
    interface Props {
-   data: number[];
+      data: number[];
    }
 
    const props = defineProps<Props>();
@@ -20,40 +20,45 @@
    };
 
    onMounted(() => {
-   window.addEventListener('resize', updateDims);
-   setTimeout(updateDims, 100);
+      window.addEventListener('resize', updateDims);
+      setTimeout(updateDims, 100);
    });
 
    onUnmounted(() => window.removeEventListener('resize', updateDims));
 
    const points = computed(() => {
-   if (!width.value || !height.value || !props.data.length) return [];
-   const max = Math.max(...props.data) * 1.1; 
-   const min = Math.min(...props.data) * 0.9;
-   const range = max - min;
-   
-   return props.data.map((val, i) => ({
-      x: (i / (props.data.length - 1)) * width.value,
-      y: height.value - ((val - min) / range) * height.value
-   }));
+      if (!width.value || !height.value || !props.data.length) return [];
+      const max = Math.max(...props.data) * 1.1; 
+      const min = Math.min(...props.data) * 0.9;
+      const range = max - min;
+      
+      return props.data.map((val, i) => ({
+         x: (i / (props.data.length - 1)) * width.value,
+         y: height.value - ((val - min) / range) * height.value
+      }));
+   });
+
+   const activePoint = computed(() => {
+      if (hoverIdx.value === -1) return null;
+      return points.value[hoverIdx.value] || null;
    });
 
    const linePath = computed(() => {
-   if (!points.value.length) return '';
-   return `M ${points.value.map(p => `${p.x},${p.y}`).join(' L ')}`;
+      if (!points.value.length) return '';
+      return `M ${points.value.map(p => `${p.x},${p.y}`).join(' L ')}`;
    });
 
    const areaPath = computed(() => {
-   if (!points.value.length) return '';
-   return `${linePath.value} L ${width.value},${height.value} L 0,${height.value} Z`;
+      if (!points.value.length) return '';
+      return `${linePath.value} L ${width.value},${height.value} L 0,${height.value} Z`;
    });
 
    const handleMouseMove = (e: MouseEvent) => {
-   if (!width.value || !chartContainer.value) return;
-   const rect = chartContainer.value.getBoundingClientRect();
-   const x = e.clientX - rect.left;
-   const idx = Math.round((x / width.value) * (props.data.length - 1));
-   hoverIdx.value = Math.max(0, Math.min(idx, props.data.length - 1));
+      if (!width.value || !chartContainer.value) return;
+      const rect = chartContainer.value.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const idx = Math.round((x / width.value) * (props.data.length - 1));
+      hoverIdx.value = Math.max(0, Math.min(idx, props.data.length - 1));
    };
 
    const hideTooltip = () => hoverIdx.value = -1;
@@ -77,16 +82,16 @@
       <path :d="linePath" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
 
       <!-- Hover Point -->
-      <circle v-if="hoverIdx !== -1 && points[hoverIdx]" 
-        :cx="points[hoverIdx].x" 
-        :cy="points[hoverIdx].y" 
+      <circle v-if="activePoint" 
+        :cx="activePoint.x" 
+        :cy="activePoint.y" 
         r="6" fill="#fff" stroke="#10b981" stroke-width="3" />
     </svg>
 
     <!-- Tooltip -->
-    <div v-if="hoverIdx !== -1 && points[hoverIdx]" 
+    <div v-if="activePoint" 
          class="pointer-events-none absolute -translate-x-1/2 -translate-y-full z-10 bg-slate-800 text-white text-xs rounded px-2 py-1 shadow-lg"
-         :style="{ left: points[hoverIdx].x + 'px', top: (points[hoverIdx].y - 10) + 'px' }">
+         :style="{ left: activePoint.x + 'px', top: (activePoint.y - 10) + 'px' }">
         Day {{ hoverIdx + 1 }}: <strong>{{ data[hoverIdx] }} T</strong>
     </div>
   </div>
