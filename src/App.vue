@@ -1,90 +1,90 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
-import { Menu, Leaf, TrendingUp, ShieldCheck, AlertCircle, Box, Sprout, Droplet, MapPin, X, User } from 'lucide-vue-next';
+    import { ref, reactive, computed, onMounted } from 'vue';
+    import { Menu, Leaf, TrendingUp, ShieldCheck, AlertCircle, Box, Sprout, Droplet, MapPin, X, User } from 'lucide-vue-next';
 
-import EfficiencyGauge from './components/EfficiencyGauge.vue';
-import CarbonChart from './components/CarbonChart.vue';
-import AppSidebar from './components/AppSidebar.vue';
-import LoginPage from './components/LoginPage.vue';
+    import EfficiencyGauge from './components/EfficiencyGauge.vue';
+    import CarbonChart from './components/CarbonChart.vue';
+    import AppSidebar from './components/AppSidebar.vue';
+    import LoginPage from './components/LoginPage.vue';
 
-const isLoggedIn = ref(false);
-const isSidebarOpen = ref(false);
-const isCollapsed = ref(false);
-const isModalOpen = ref(false);
-const isProfileOpen = ref(false);
-const isMobile = ref(window.innerWidth < 1024);
+    const isLoggedIn = ref(false);
+    const isSidebarOpen = ref(false);
+    const isCollapsed = ref(false);
+    const isModalOpen = ref(false);
+    const isProfileOpen = ref(false);
+    const isMobile = ref(window.innerWidth < 1024);
 
-// Resize listener
-onMounted(() => {
-    window.addEventListener('resize', () => {
-        isMobile.value = window.innerWidth < 1024;
-        if (!isMobile.value) isSidebarOpen.value = true;
+    // Resize listener
+    onMounted(() => {
+        window.addEventListener('resize', () => {
+            isMobile.value = window.innerWidth < 1024;
+            if (!isMobile.value) isSidebarOpen.value = true;
+        });
     });
-});
 
-// DATA STATE
-const machines = ref([
-    { id: 'CRC-001A', name: 'Zoh Shia', location: 'Hafnarfjörður, Iceland' },
-    { id: 'CRC-002Z', name: 'EVA-002', location: "St. John's, Canada" },
-    { id: 'CRC-003X', name: 'Sahara Sol', location: 'Gibraltar, Morocco' },
-]);
-const selectedMachineId = ref('CRC-001A');
-const newMachine = reactive({ name: '', id: '' });
+    // DATA STATE
+    const machines = ref([
+        { id: 'CRC-001A', name: 'Zoh Shia', location: 'Hafnarfjörður, Iceland' },
+        { id: 'CRC-002Z', name: 'EVA-002', location: "St. John's, Canada" },
+        { id: 'CRC-003X', name: 'Sahara Sol', location: 'Gibraltar, Morocco' },
+    ]);
+    const selectedMachineId = ref('CRC-001A');
+    const newMachine = reactive({ name: '', id: '' });
 
-const dummyData = reactive({
-    totalCO2: 1254.7,
-    carbonUsed: 231.2,
-    netImpact: 1023.5,
-    co2PerHour: 1.57,
-    mineralOutput: 3.21,
-    mineralTarget: 5,
-    efficiencyAI: 94,
-});
-const efficiencyTrend = ref<'up'|'down'>('up');
-const historicalData = ref(Array.from({length: 30}, () => Math.floor(Math.random() * (60 - 30) + 30)));
-
-const selectedMachine = computed(() => machines.value.find(m => m.id === selectedMachineId.value));
-const mineralProgress = computed(() => (dummyData.mineralOutput / dummyData.mineralTarget) * 100);
-
-// ACTIONS
-const handleLoginSuccess = () => {
-  isLoggedIn.value = true;
-};
-
-const handleLogout = () => {
-  isLoggedIn.value = false;
-  isProfileOpen.value = false;
-  isSidebarOpen.value = false;
-};
-
-const selectMachine = (id: string) => {
-    selectedMachineId.value = id;
-    if (isMobile.value) isSidebarOpen.value = false;
-    
-    // Simulate data refresh
-    dummyData.efficiencyAI = Math.floor(Math.random() * 30) + 70;
-    dummyData.co2PerHour = parseFloat((Math.random() * 2 + 0.5).toFixed(2));
-    efficiencyTrend.value = Math.random() > 0.5 ? 'up' : 'down';
-    historicalData.value = Array.from({length: 30}, () => Math.floor(Math.random() * (60 - 30) + 30));
-};
-
-const addMachine = () => {
-    if(!newMachine.name || !newMachine.id) return;
-    machines.value.push({
-        id: newMachine.id,
-        name: newMachine.name,
-        location: 'New Location'
+    const dummyData = reactive({
+        totalCO2: 1254.7,
+        carbonUsed: 231.2,
+        netImpact: 1023.5,
+        co2PerHour: 1.57,
+        mineralOutput: 3.21,
+        mineralTarget: 5,
+        efficiencyAI: 94,
     });
-    selectMachine(newMachine.id);
-    closeModal();
-};
+    const efficiencyTrend = ref<'up'|'down'>('up');
+    const historicalData = ref(Array.from({length: 30}, () => Math.floor(Math.random() * (60 - 30) + 30)));
 
-const closeModal = () => {
-    isModalOpen.value = false;
-    isProfileOpen.value = false;
-    newMachine.name = '';
-    newMachine.id = '';
-};
+    const selectedMachine = computed(() => machines.value.find(m => m.id === selectedMachineId.value));
+    const mineralProgress = computed(() => (dummyData.mineralOutput / dummyData.mineralTarget) * 100);
+
+    // ACTIONS
+    const handleLoginSuccess = () => {
+        isLoggedIn.value = true;
+    };
+
+    const handleLogout = () => {
+        isLoggedIn.value = false;
+        isProfileOpen.value = false;
+        isSidebarOpen.value = false;
+    };
+
+    const selectMachine = (id: string) => {
+        selectedMachineId.value = id;
+        if (isMobile.value) isSidebarOpen.value = false;
+        
+        // Simulate data refresh
+        dummyData.efficiencyAI = Math.floor(Math.random() * 30) + 70;
+        dummyData.co2PerHour = parseFloat((Math.random() * 2 + 0.5).toFixed(2));
+        efficiencyTrend.value = Math.random() > 0.5 ? 'up' : 'down';
+        historicalData.value = Array.from({length: 30}, () => Math.floor(Math.random() * (60 - 30) + 30));
+    };
+
+    const addMachine = () => {
+        if(!newMachine.name || !newMachine.id) return;
+        machines.value.push({
+            id: newMachine.id,
+            name: newMachine.name,
+            location: 'New Location'
+        });
+        selectMachine(newMachine.id);
+        closeModal();
+    };
+
+    const closeModal = () => {
+        isModalOpen.value = false;
+        isProfileOpen.value = false;
+        newMachine.name = '';
+        newMachine.id = '';
+    };
 </script>
 
 <template>
