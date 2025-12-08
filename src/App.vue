@@ -151,7 +151,7 @@
                     <!-- SECTION 1: HEADLINE -->
                     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <div class="absolute top-0 right-0 p-4 opacity-30 group-hover:opacity-40 transition-opacity">
                                 <Leaf class="w-32 h-32 text-emerald-500" />
                             </div>
                             <div class="relative z-10">
