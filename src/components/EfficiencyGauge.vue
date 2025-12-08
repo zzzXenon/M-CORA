@@ -12,17 +12,17 @@
    const circumference = 2 * Math.PI * 56;
    const dashOffset = computed(() => circumference - (props.score / 100) * circumference);
 
-   const statusColor = computed(() => {
-      if (props.score >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-      if (props.score >= 70) return 'bg-amber-50 text-amber-700 border-amber-100';
-      return 'bg-red-50 text-red-700 border-red-100';
-   });
+const statusColor = computed(() => {
+   if (props.score >= 90) return 'text-white bg-gradient-to-br from-[#57BEED] to-teal-500 border-none';
+   if (props.score >= 70) return 'text-amber-700 bg-amber-50 border-amber-100';
+   return 'text-red-700 bg-red-50 border-red-100';
+});
 
-   const scoreColor = computed(() => {
-      if (props.score >= 90) return 'text-emerald-500';
-      if (props.score >= 70) return 'text-amber-500';
-      return 'text-red-500';
-   });
+const scoreColor = computed(() => {
+   if (props.score >= 90) return 'text-transparent bg-clip-text bg-gradient-to-br from-[#57BEED] to-teal-500';
+   if (props.score >= 70) return 'text-amber-500';
+   return 'text-red-500';
+});
 
    const statusText = computed(() => {
       if (props.score >= 90) return 'OPTIMAL';
@@ -56,7 +56,7 @@
       </svg>
       <div class="absolute flex flex-col items-center">
         <span class="text-3xl font-bold text-slate-800">{{ score.toFixed(0) }}%</span>
-        <span class="text-xs font-medium flex items-center gap-1" :class="trend === 'up' ? 'text-emerald-500' : 'text-amber-500'">
+        <span class="text-xs font-medium flex items-center gap-1" :class="trend === 'up' ? 'text-[#57BEED]' : 'text-amber-500'">
           <component :is="trend === 'up' ? ArrowUp : ArrowDown" class="w-3 h-3" />
           {{ trend === 'up' ? 'Improving' : 'Declining' }}
         </span>

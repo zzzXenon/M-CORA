@@ -43,28 +43,39 @@
       isMobile && !isSidebarOpen ? '-translate-x-full' : 'translate-x-0'
   ]">
       <!-- Logo Area (sidebar toggle) -->
-      <div @click="!isMobile ? emit('toggleCollapse') : null" 
-           class="h-16 flex items-center px-4 border-b border-slate-800 shrink-0 cursor-pointer hover:bg-slate-800 transition-colors group select-none" 
-           :class="isCollapsed ? 'justify-center' : 'justify-between'"
-           title="Toggle Sidebar">
-          
-          <!-- Expanded -->
-          <div v-if="!isCollapsed" class="flex items-center gap-2 font-bold text-white text-xl tracking-tight">
-              <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-slate-900 group-hover:bg-emerald-400 transition-colors">M</div>
-              <span>M-CORA</span>
-          </div>
+    <div @click="!isMobile ? emit('toggleCollapse') : null" 
+        class="h-16 flex items-center px-4 border-b border-slate-800 shrink-0 cursor-pointer hover:bg-slate-800 transition-colors group select-none" 
+        :class="isCollapsed ? 'justify-center' : 'justify-between'">
 
-          <!-- Collapsed -->
-          <div v-else class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-slate-900 font-bold group-hover:bg-emerald-400 transition-colors">M</div>
-      </div>
+        <!-- Expanded -->
+        <div v-if="!isCollapsed" class="flex items-center gap-2 font-bold text-white text-xl tracking-tight">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white 
+                        bg-gradient-to-br from-[#57BEED] to-teal-500 shadow-md shadow-[#57BEED]/40">
+                M
+            </div>
+            <span>M-CORA</span>
+        </div>
+
+        <!-- Collapsed -->
+        <div v-else class="w-8 h-8 rounded-lg flex items-center justify-center text-white
+                        bg-gradient-to-br from-[#57BEED] to-teal-500 shadow-md shadow-[#57BEED]/40 font-bold">
+            M
+        </div>
+    </div>
+
 
       <!-- Navigation -->
       <div class="flex-1 overflow-y-auto custom-scroll py-4 flex flex-col gap-2 px-3">
-          <button @click="emit('openModal')" 
-                  class="flex items-center gap-3 p-3 rounded-lg bg-emerald-600/10 text-emerald-400 hover:bg-emerald-600/20 transition-all group cursor-pointer">
-              <PlusCircle class="w-5 h-5 shrink-0" />
-              <span v-if="!isCollapsed" class="font-medium whitespace-nowrap">Add Machine</span>
-          </button>
+            <button @click="emit('openModal')" 
+                class="flex items-center gap-3 p-3 rounded-lg 
+                    bg-gradient-to-br from-[#57BEED]/20 to-teal-500/20
+                    text-[#57BEED] 
+                    hover:from-[#57BEED]/30 hover:to-teal-500/30
+                    transition-all group cursor-pointer shadow-sm shadow-[#57BEED]/30">
+                <PlusCircle class="w-5 h-5 shrink-0" />
+                <span v-if="!isCollapsed" class="font-medium whitespace-nowrap">Add Machine</span>
+            </button>
+
 
           <div v-if="!isCollapsed" class="text-xs font-semibold text-slate-500 mt-4 px-3 uppercase tracking-wider">Machines</div>
           <div v-else class="h-4"></div>
@@ -72,10 +83,16 @@
           <div v-for="machine in machines" :key="machine.id" class="relative group">
               <div @click="emit('selectMachine', machine.id)" 
                    :class="[
-                      'flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border border-transparent',
-                      selectedMachineId === machine.id ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20' : 'hover:bg-slate-800'
-                   ]">
-                  <Server :class="['w-5 h-5 shrink-0', selectedMachineId === machine.id ? 'text-white' : 'text-slate-500']" />
+                    'flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all border border-transparent',
+                    selectedMachineId === machine.id 
+                        ? 'bg-gradient-to-r from-[#57BEED] to-teal-500 text-black shadow-lg shadow-[#57BEED]/40' 
+                        : 'hover:bg-slate-800'
+                    ]">
+                    <Server :class="[
+                    'w-5 h-5 shrink-0',
+                    selectedMachineId === machine.id ? 'text-white drop-shadow' : 'text-slate-500'
+                    ]" />
+
                   
                   <div v-if="!isCollapsed" class="flex-1 min-w-0">
                       <div class="font-medium truncate">{{ machine.name }}</div>
@@ -107,9 +124,13 @@
           <div v-if="isLoggedIn">
               <div @click="emit('openProfile')" 
                    :class="['flex items-center gap-3 cursor-pointer hover:bg-slate-800 p-2 -m-2 rounded-lg transition-colors', isCollapsed ? 'justify-center' : '']">
-                  <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-md shrink-0">
-                      JD
-                  </div>
+                    <div class="w-9 h-9 rounded-full 
+                                bg-gradient-to-tr from-[#57BEED] to-teal-500 
+                                flex items-center justify-center 
+                                text-white font-bold text-sm shadow-md shadow-[#57BEED]/40">
+                        JD
+                    </div>
+
                   <div v-if="!isCollapsed" class="min-w-0 flex-1">
                       <div class="text-sm font-medium text-white truncate">John Doe</div>
                       <div class="text-xs text-slate-500 truncate">Operator</div>
